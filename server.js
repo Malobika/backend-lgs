@@ -62,6 +62,15 @@ app.post('/nodes', (req, res) => {
     res.status(500).send(error);
   })
 })
+app.post('/gfg', (req, res) => {
+  db1.createGrowFormulaGroup(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
 
 
 
