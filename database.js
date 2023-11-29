@@ -107,29 +107,7 @@ const createNodes = async (body) => {
         throw new Error("Internal server Error");
     }
 };
-const createGrowFormulaGroup = async (body) => {
-    try {
-        const { grow_formula_group_name, comment } = body; // Extracting the necessary fields from the body
 
-        // Inserting data into the 'grow_formula_group' table using Knex
-        const results = await db('grow_formula_group')
-                            .insert({
-                                grow_formula_group_name: grow_formula_group_name,
-                                comment: comment,
-                              
-                            })
-                            .returning('*'); // This line ensures that the inserted record is returned
-
-        if (results.length === 0) {
-            throw new Error("No results found or no insert made");
-        }
-
-        return `A new grow formula group has been added: ${JSON.stringify(results[0])}`;
-    } catch (error) {
-        console.error(error);
-        throw new Error("Internal server Error");
-    }
-};
 
 
   //delete a merchant
@@ -185,7 +163,7 @@ const createGrowFormulaGroup = async (body) => {
     getChildNodesNamesByEntityId,
     getEdges,
     getEdgesByEntityId,
-    createGrowFormulaGroup
+  
    
   };
  
