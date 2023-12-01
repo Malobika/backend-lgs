@@ -100,10 +100,10 @@ app.put("/nodes/:id", (req, res) => {
 
 // PostgreSQL database configuration
 const pool = new pg.Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
+  user: process.env.DATABASE_USERNAME,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE,
+  password: process.env.DATABASE_PASSWORD,
   port: 5432, // PostgreSQL default port
 });
 
