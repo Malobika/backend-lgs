@@ -95,10 +95,7 @@ app.put("/nodes/:id", (req, res) => {
 
 
 
- // Load environment variables from .env file
 
-
-// PostgreSQL database configuration
 const pool = new pg.Pool({
   user: process.env.DATABASE_USERNAME,
   host: process.env.DATABASE_HOST,
@@ -122,6 +119,42 @@ app.post('/gfg', async (req, res) => {
 
     // Send the inserted data as the response
     res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/seed-data', async (req, res) => {
+  const { comment, growFormulaId, supplierSeedName, supplierName, productId } = req.body;
+
+  try {
+    // Insert data into the "seed_data" table
+    const queryText = `
+      INSERT INTO seed_data (comment, grow_formula_id, supplier_seed_name, supplier_name, product_id) 
+      VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const values = [comment, growFormulaId, supplierSeedName, supplierName, productId];
+
+    const result = await pool.query(queryText, values);
+
+    // Send the inserted data as the response
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+app.get('/seedgrowformulaids', async (req, res) => {
+  try {
+    // Query to select all grow formula IDs
+    const queryText = 'SELECT id, name FROM grow_formula_id'; // Adjust this query to match your table structure
+
+    const result = await pool.query(queryText);
+
+    // Send the fetched data as the response
+    res.status(200).json(result.rows);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });
